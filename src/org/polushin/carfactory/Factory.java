@@ -27,6 +27,13 @@ public abstract class Factory<Prod extends Product> {
 	}
 
 	/**
+	 * @return Максимальное кол-во работников на фабрике.
+	 */
+	public int getWorkersMaxCount() {
+		return pool.getPoolSize();
+	}
+
+	/**
 	 * @return Склад продукции данной фабрики.
 	 */
 	public Stock<Prod> getStock() {

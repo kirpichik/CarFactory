@@ -23,6 +23,16 @@ public interface Stock<Prod extends Product> {
 	int getSize();
 
 	/**
+	 * @return Максимальный размер склада.
+	 */
+	int getMaxSize();
+
+	/**
+	 * @return Сколько склад может принять еще продукции.
+	 */
+	int freeSpace();
+
+	/**
 	 * Устанавливает новый размер склада.
 	 *
 	 * @param maxSize Новый размер.

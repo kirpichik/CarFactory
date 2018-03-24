@@ -16,6 +16,8 @@ public class CarsStockController implements StockUpdateListener<Car> {
 
 	@Override
 	public void onUpdate(Stock<Car> stock) {
-		// TODO - запуск работников при нехватке.
+		int free = stock.freeSpace();
+		for (int i = 0; i < factory.getWorkersMaxCount() && i < free; i++)
+			factory.tryToWakeupWorker();
 	}
 }

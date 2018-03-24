@@ -11,7 +11,7 @@ import java.util.List;
 public class AbstractStock<Prod extends Product> implements Stock<Prod> {
 
 	protected final List<Prod> products;
-	protected int maxSize;
+	protected volatile int maxSize;
 
 	/**
 	 * @param maxSize Максимальный размер склада.
@@ -35,6 +35,18 @@ public class AbstractStock<Prod extends Product> implements Stock<Prod> {
 	public int getSize() {
 		synchronized (products) {
 			return products.size();
+		}
+	}
+
+	@Override
+	public int getMaxSize() {
+		return maxSize;
+	}
+
+	@Override
+	public int freeSpace() {
+		synchronized (products) {
+			return maxSize - products.size();
 		}
 	}
 

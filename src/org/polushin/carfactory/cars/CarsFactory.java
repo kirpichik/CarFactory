@@ -40,21 +40,17 @@ public class CarsFactory extends Factory<Car> {
 
 	/**
 	 * Пытается запустить в работу свободного рабочего.
-	 *
-	 * @return Был ли разбужен какой-нибудь работник.
 	 */
-	boolean tryToWakeupWorker() {
+	void tryToWakeupWorker() {
 		for (CarsFactoryWorker worker : workers)
 			if (!worker.isWorking()) {
 				try {
 					pool.runTask(worker);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-					return false;
 				}
-				return true;
+				return;
 			}
-		return false;
 	}
 
 	@Override
