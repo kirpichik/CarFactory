@@ -6,9 +6,10 @@ package org.polushin.threadpoll;
 public class ThreadPool {
 
 	private final PooledThread[] pool;
-	private final ThreadGroup group = new ThreadGroup(ThreadPool.class.getSimpleName());
+	private final ThreadGroup group;
 
-	public ThreadPool(int poolSize) {
+	public ThreadPool(String name, int poolSize) {
+		group = new ThreadGroup(ThreadPool.class.getSimpleName() + ": " + name);
 		pool = new PooledThread[poolSize];
 		for (int i = 0; i < poolSize; i++)
 			pool[i] = new PooledThread(group, i);
@@ -42,11 +43,28 @@ public class ThreadPool {
 						thread = candidate;
 						break;
 					}
-				group.wait();
+
+				if (thread == null)
+					synchronized (group) {
+						group.wait();
+					}
 			}
 			thread.setTask(task);
 		}
+	}
 
+	/**
+	 * Посылает сигнал на прерывание всему пулу потоков и дожидается их завершения.
+	 */
+	public void stopAll() {
+		group.interrupt();
+		for (PooledThread thread : pool) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

@@ -8,12 +8,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Производитель кузовов.
  */
-public class CarcassProvider implements ProductionProvider<Carcass> {
+public class CarcassesProvider implements ProductionProvider<Carcass> {
 
 	private final Stock<Carcass> stock;
 	private final AtomicInteger count = new AtomicInteger();
 
-	public CarcassProvider(Stock<Carcass> stock) {
+	public CarcassesProvider(Stock<Carcass> stock) {
 		this.stock = stock;
 	}
 

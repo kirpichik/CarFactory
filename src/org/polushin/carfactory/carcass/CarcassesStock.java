@@ -5,9 +5,9 @@ import org.polushin.carfactory.AbstractStock;
 /**
  * Склад кузовов.
  */
-public class CarcassStock extends AbstractStock<Carcass> {
+public class CarcassesStock extends AbstractStock<Carcass> {
 
-	public CarcassStock(int maxSize) {
+	public CarcassesStock(int maxSize) {
 		super(maxSize);
 	}
 }

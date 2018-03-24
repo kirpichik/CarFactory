@@ -1,6 +1,8 @@
 package org.polushin.carfactory.dealers;
 
 import org.polushin.carfactory.ProductionProvider;
+import org.polushin.carfactory.Stock;
+import org.polushin.carfactory.cars.Car;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -9,16 +11,20 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Dealer implements ProductionProvider {
 
-	public static final int CAR_PRICE = 999;
-	public static final long CAR_SALE_DELAY = 10000;
+	private final Stock<Car> carStock;
 
 	private final AtomicInteger cash = new AtomicInteger();
+
+	public Dealer(Stock<Car> cars) {
+		carStock = cars;
+	}
 
 	@Override
 	public void run() {
 		try {
-			while (true)
-				cash.getAndAdd(new Money(CAR_PRICE, CAR_SALE_DELAY).getAmount());
+			while (true) {
+				cash.getAndAdd(new Money(carStock.getProduction()).getAmount());
+			}
 		} catch (InterruptedException ignored) {}
 	}
 
@@ -31,6 +37,6 @@ public class Dealer implements ProductionProvider {
 
 	@Override
 	public int getCount() {
-		return getCash() / CAR_PRICE;
+		return getCash() / Money.CAR_PRICE;
 	}
 }
