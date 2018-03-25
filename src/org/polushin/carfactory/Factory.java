@@ -40,4 +40,9 @@ public abstract class Factory<Prod extends Product> {
 		return stock;
 	}
 
+	/**
+	 * @return Кол-во произведенной продукции.
+	 */
+	public abstract int getCount();
+
 }

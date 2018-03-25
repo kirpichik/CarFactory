@@ -56,6 +56,14 @@ public class CarsFactory extends Factory<Car> {
 	}
 
 	@Override
+	public int getCount() {
+		int sum = 0;
+		for (CarsFactoryWorker provider : workers)
+			sum += provider.getCount();
+		return sum;
+	}
+
+	@Override
 	public void stopFactory() {
 		controller.interrupt();
 		try {

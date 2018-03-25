@@ -1,10 +1,6 @@
 package org.polushin.carfactory;
 
-import org.polushin.carfactory.accessories.AccessoriesFactory;
-import org.polushin.carfactory.carcass.CarcassesFactory;
-import org.polushin.carfactory.cars.CarsFactory;
-import org.polushin.carfactory.dealers.CarsShowroom;
-import org.polushin.carfactory.engines.EnginesFactory;
+import org.polushin.carfactory.gui.MainFrame;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,18 +18,7 @@ public class Main {
 			config = ProductionConfig.fromReader(reader);
 		}
 
-		AccessoriesFactory accessories = new AccessoriesFactory(config);
-		CarcassesFactory carcasses = new CarcassesFactory(config);
-		EnginesFactory engines = new EnginesFactory(config);
-		CarsFactory cars = new CarsFactory(engines.getStock(), accessories.getStock(), carcasses.getStock(), config);
-		CarsShowroom showroom = new CarsShowroom(cars.getStock(), config);
+		new MainFrame(config);
 
-		Factory[] factories = new Factory[] {accessories, carcasses, engines, cars, showroom};
-
-		System.in.read();
-		System.out.println("EXIT");
-
-		for (Factory factory : factories)
-			factory.stopFactory();
 	}
 }
