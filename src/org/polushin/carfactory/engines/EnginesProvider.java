@@ -19,12 +19,18 @@ public class EnginesProvider implements ProductionProvider<Engine> {
 
 	@Override
 	public void run() {
+		EnginesFactory.log.fine("Engines provider started.");
 		try {
 			while (true) {
-				stock.addProduction(new Engine());
+				Engine engine = new Engine();
+				EnginesFactory.log.fine("Created: " + engine);
+				EnginesFactory.log.fine("Storage current size: " + stock.getSize() + "/" + stock.getMaxSize());
+				stock.addProduction(engine);
+				EnginesFactory.log.fine("Stored: " + engine);
 				count.incrementAndGet();
 			}
 		} catch (InterruptedException ignored) {}
+		EnginesFactory.log.fine("Engines provider exited.");
 	}
 
 	@Override

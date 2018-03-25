@@ -2,10 +2,14 @@ package org.polushin.carfactory.accessories;
 
 import org.polushin.carfactory.Factory;
 
+import java.util.logging.Logger;
+
 /**
  * Фабрика производства аксессуаров для автомобилей.
  */
 public class AccessoriesFactory extends Factory<Accessory> {
+
+	static final Logger log = Logger.getLogger("Accessories");
 
 	/**
 	 * @param stockMaxSize Максимальный размер склада.

@@ -19,12 +19,18 @@ public class CarcassesProvider implements ProductionProvider<Carcass> {
 
 	@Override
 	public void run() {
+		CarcassesFactory.log.fine("Carcasses provider started.");
 		try {
 			while (true) {
-				stock.addProduction(new Carcass());
+				Carcass carcass = new Carcass();
+				CarcassesFactory.log.fine("Created: " + carcass);
+				CarcassesFactory.log.fine("Storage current size: " + stock.getSize() + "/" + stock.getMaxSize());
+				stock.addProduction(carcass);
+				CarcassesFactory.log.fine("Stored: " + carcass);
 				count.incrementAndGet();
 			}
 		} catch (InterruptedException ignored) {}
+		CarcassesFactory.log.fine("Carcasses provider exited.");
 	}
 
 	@Override

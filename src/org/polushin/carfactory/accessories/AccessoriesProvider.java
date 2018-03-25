@@ -19,12 +19,19 @@ public class AccessoriesProvider implements ProductionProvider<Accessory> {
 
 	@Override
 	public void run() {
+		AccessoriesFactory.log.fine("Accessories provider started.");
 		try {
 			while (true) {
-				stock.addProduction(new Accessory());
+				Accessory accessory = new Accessory();
+				AccessoriesFactory.log.fine("Created: " + accessory);
+				AccessoriesFactory.log.fine("Storage current size: " + stock.getSize() + "/" + stock.getMaxSize());
+				stock.addProduction(accessory);
+				AccessoriesFactory.log.fine("Stored: " + accessory);
 				count.incrementAndGet();
 			}
-		} catch (InterruptedException ignored) {}
+		} catch (InterruptedException ignored) {
+		}
+		AccessoriesFactory.log.fine("Accessories provider exited.");
 	}
 
 	@Override

@@ -21,11 +21,18 @@ public class Dealer implements ProductionProvider {
 
 	@Override
 	public void run() {
+		CarsShowroom.log.fine("Dealer started.");
 		try {
 			while (true) {
-				cash.getAndAdd(new Money(carStock.getProduction()).getAmount());
+				CarsShowroom.log.fine("Waiting car from stock...");
+				Car car = carStock.getProduction();
+				CarsShowroom.log.fine("Car put from stock: " + car);
+				Money money = new Money(car);
+				cash.getAndAdd(money.getAmount());
+				CarsShowroom.log.info("Car sold. Current dealer cash: " + cash.get());
 			}
 		} catch (InterruptedException ignored) {}
+		CarsShowroom.log.fine("Dealer exited.");
 	}
 
 	/**

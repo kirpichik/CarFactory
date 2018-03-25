@@ -15,6 +15,7 @@ public class PooledThread extends Thread {
 	public PooledThread(ThreadGroup group, int id) {
 		super(group, PooledThread.class.getSimpleName() + "_" + id);
 		this.group = group;
+		start();
 	}
 
 	/**
@@ -47,17 +48,18 @@ public class PooledThread extends Thread {
 						mutex.wait();
 
 					currentTask.run();
-					free = true;
-
-					if (interrupted)
-						return;
-
 					synchronized (group) {
+						free = true;
+
+						if (interrupted)
+							return;
+
 						group.notify();
 					}
 				}
 			}
-		} catch (InterruptedException ignored) {}
+		} catch (InterruptedException ignored) {
+		}
 	}
 
 	@Override

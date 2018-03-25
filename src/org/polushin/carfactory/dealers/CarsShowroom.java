@@ -4,10 +4,14 @@ import org.polushin.carfactory.Factory;
 import org.polushin.carfactory.Stock;
 import org.polushin.carfactory.cars.Car;
 
+import java.util.logging.Logger;
+
 /**
  * Автосалон.
  */
 public class CarsShowroom extends Factory<Money> {
+
+	static final Logger log = Logger.getLogger("Showroom");
 
 	/**
 	 * @param stock Склад автомобилей на продажу.

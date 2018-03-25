@@ -2,10 +2,14 @@ package org.polushin.carfactory.engines;
 
 import org.polushin.carfactory.Factory;
 
+import java.util.logging.Logger;
+
 /**
  * Фабрика двигателей.
  */
 public class EnginesFactory extends Factory<Engine> {
+
+	static final Logger log = Logger.getLogger("Engines");
 
 	/**
 	 * @param stockMaxSize Максимальный размер склада.

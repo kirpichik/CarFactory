@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Carcass extends Product {
 
-	public static final long BUILD_DELAY = 1000;
+	public static final long BUILD_DELAY = 2000;
 
 	public Carcass() throws InterruptedException {
 		TimeUnit.MILLISECONDS.sleep(BUILD_DELAY);

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class Money extends Product {
 
 	public static final int CAR_PRICE = 999;
-	public static final long CAR_SALE_DELAY = 10000;
+	public static final long CAR_SALE_DELAY = 5000;
 
 	private final int amount;
 

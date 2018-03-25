@@ -6,13 +6,15 @@ import org.polushin.carfactory.cars.CarsFactory;
 import org.polushin.carfactory.dealers.CarsShowroom;
 import org.polushin.carfactory.engines.EnginesFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.util.logging.LogManager;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
+		InputStream stream = Main.class.getClassLoader().getResourceAsStream("logging.properties");
+		LogManager.getLogManager().readConfiguration(stream);
 
 		AccessoriesFactory accessories = new AccessoriesFactory(100, 10);
 		CarcassesFactory carcasses = new CarcassesFactory(100, 1);
@@ -22,8 +24,7 @@ public class Main {
 
 		Factory[] factories = new Factory[] {accessories, carcasses, engines, cars, showroom};
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		reader.readLine();
+		System.in.read();
 		System.out.println("EXIT");
 
 		for (Factory factory : factories)

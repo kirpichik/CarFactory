@@ -36,7 +36,7 @@ public class ThreadPool {
 
 		PooledThread thread = null;
 
-		synchronized (pool) {
+		synchronized (group) {
 			while (thread == null) {
 				for (PooledThread candidate : pool)
 					if (candidate.isFree()) {
@@ -45,9 +45,7 @@ public class ThreadPool {
 					}
 
 				if (thread == null)
-					synchronized (group) {
-						group.wait();
-					}
+					group.wait();
 			}
 			thread.setTask(task);
 		}

@@ -27,6 +27,7 @@ public class Car extends Product {
 
 	@Override
 	public String toString() {
-		return "I'm car with UUID: " + getUUID() + ". I'm built from: " + accessory + ", " + engine + ", " + carcass;
+		return "I'm car with UUID: " + getUUID() + ". I'm built from:\n\t" + accessory + "\n\t" + engine + "\n\t" +
+				carcass;
 	}
 }

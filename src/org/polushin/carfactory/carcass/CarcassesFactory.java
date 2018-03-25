@@ -2,10 +2,14 @@ package org.polushin.carfactory.carcass;
 
 import org.polushin.carfactory.Factory;
 
+import java.util.logging.Logger;
+
 /**
  * Фабрика кузовов.
  */
 public class CarcassesFactory extends Factory<Carcass> {
+
+	static final Logger log = Logger.getLogger("Carcasses");
 
 	/**
 	 * @param stockMaxSize Максимальный размер склада.

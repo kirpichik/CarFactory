@@ -37,16 +37,23 @@ public class CarsFactoryWorker implements ProductionProvider<Car> {
 
 	@Override
 	public void run() {
+		CarsFactory.log.fine("Cars factory worker started.");
 		try {
 			working = true;
 			Accessory accessory = accessoriesStock.getProduction();
 			Engine engine = enginesStock.getProduction();
 			Carcass carcass = carcassesStock.getProduction();
-			stock.addProduction(new Car(accessory, engine, carcass));
-			count.incrementAndGet();
+			CarsFactory.log.fine("Car parts collected, building car...");
+			Car car = new Car(accessory, engine, carcass);
+			CarsFactory.log.fine("Created: " + car);
+			CarsFactory.log.fine("Storage current size: " + stock.getSize() + "/" + stock.getMaxSize());
 			working = false;
+			stock.addProduction(car);
+			CarsFactory.log.fine("Stored: " + car);
+			count.incrementAndGet();
 		} catch (InterruptedException ignored) {
 		}
+		CarsFactory.log.fine("Cars factory worker exited.");
 	}
 
 	@Override

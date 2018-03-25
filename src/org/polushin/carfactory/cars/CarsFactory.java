@@ -7,12 +7,17 @@ import org.polushin.carfactory.accessories.Accessory;
 import org.polushin.carfactory.carcass.Carcass;
 import org.polushin.carfactory.engines.Engine;
 
+import java.util.logging.Logger;
+
 /**
  * Фабрика производства автомобилей.
  */
 public class CarsFactory extends Factory<Car> {
 
+	static final Logger log = Logger.getLogger("Cars");
+
 	private final ControlledStock<Car> stock;
+	private final CarsStockController controller;
 
 	private final CarsFactoryWorker[] workers;
 
@@ -33,7 +38,7 @@ public class CarsFactory extends Factory<Car> {
 		for (int i = 0; i < workers; i++)
 			this.workers[i] = new CarsFactoryWorker(accessories, engines, carcasses, stock);
 
-		CarsStockController controller = new CarsStockController(this);
+		controller = new CarsStockController(this);
 		stock.setUpdateListener(controller);
 		controller.onUpdate(stock);
 	}
@@ -41,14 +46,12 @@ public class CarsFactory extends Factory<Car> {
 	/**
 	 * Пытается запустить в работу свободного рабочего.
 	 */
-	void tryToWakeupWorker() {
+	void tryToWakeupWorker() throws InterruptedException {
 		for (CarsFactoryWorker worker : workers)
 			if (!worker.isWorking()) {
-				try {
-					pool.runTask(worker);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				CarsFactory.log.fine("============== Found free worker! =================");
+				pool.runTask(worker);
+				CarsFactory.log.fine("============== Worker woke up! ====================");
 				return;
 			}
 	}
@@ -56,5 +59,16 @@ public class CarsFactory extends Factory<Car> {
 	@Override
 	public Stock<Car> getStock() {
 		return stock;
+	}
+
+	@Override
+	public void stopFactory() {
+		controller.interrupt();
+		try {
+			controller.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		super.stopFactory();
 	}
 }
