@@ -16,7 +16,7 @@ import java.awt.*;
 public class CarPartsPanel extends JPanel {
 
 	private static final int MAX_DELAY = 10000;
-	private static final String DISPLAY_FORMAT = "<html>%s: %d/%d,<br>Произведено: %d</html>";
+	private static final String DISPLAY_FORMAT = "<html>%s: %d/%d,<br>Произведено: %d<br>Задержка: %d/%dмс.</html>";
 	private static final String ACCESSORIES = "Аксессуары";
 	private static final String CARCASSES = "Кузова";
 	private static final String ENGINES = "Двигатели";
@@ -49,7 +49,10 @@ public class CarPartsPanel extends JPanel {
 		panel.add(accessoriesLabel = new JLabel());
 		JSlider accessoriesSlider = new JSlider(JSlider.HORIZONTAL, 0, MAX_DELAY, config.accessoriesDelay);
 		panel.add(accessoriesSlider);
-		accessoriesSlider.addChangeListener(e -> config.accessoriesDelay = accessoriesSlider.getValue());
+		accessoriesSlider.addChangeListener(e -> {
+			config.accessoriesDelay = accessoriesSlider.getValue();
+			updateStockValues();
+		});
 		add(panel);
 
 		panel = new JPanel();
@@ -58,7 +61,10 @@ public class CarPartsPanel extends JPanel {
 		panel.add(carcassesLabel = new JLabel());
 		JSlider carcassesSlider = new JSlider(JSlider.HORIZONTAL, 0, MAX_DELAY, config.carcassesDelay);
 		panel.add(carcassesSlider);
-		carcassesSlider.addChangeListener(e -> config.carcassesDelay = carcassesSlider.getValue());
+		carcassesSlider.addChangeListener(e -> {
+			config.carcassesDelay = carcassesSlider.getValue();
+			updateStockValues();
+		});
 		add(panel);
 
 		panel = new JPanel();
@@ -67,7 +73,10 @@ public class CarPartsPanel extends JPanel {
 		panel.add(enginesLabel = new JLabel());
 		JSlider enginesSlider = new JSlider(JSlider.HORIZONTAL, 0, MAX_DELAY, config.enginesDelay);
 		panel.add(enginesSlider);
-		enginesSlider.addChangeListener(e -> config.enginesDelay = enginesSlider.getValue());
+		enginesSlider.addChangeListener(e -> {
+			config.enginesDelay = enginesSlider.getValue();
+			updateStockValues();
+		});
 		add(panel);
 
 		updateStockValues();
@@ -84,12 +93,13 @@ public class CarPartsPanel extends JPanel {
 		if (accessoriesLabel == null)
 			return;
 		accessoriesLabel.setText(String.format(DISPLAY_FORMAT, ACCESSORIES, accessories.getStock().getSize(),
-		                                       config.accessoriesStockSize, accessories.getCount()));
+		                                       config.accessoriesStockSize, accessories.getCount(),
+		                                       config.accessoriesDelay, MAX_DELAY));
 		carcassesLabel.setText(
 				String.format(DISPLAY_FORMAT, CARCASSES, carcasses.getStock().getSize(), config.carcassesStockSize,
-				              carcasses.getCount()));
+				              carcasses.getCount(), config.carcassesDelay, MAX_DELAY));
 		enginesLabel.setText(
 				String.format(DISPLAY_FORMAT, ENGINES, engines.getStock().getSize(), config.enginesStockSize,
-				              engines.getCount()));
+				              engines.getCount(), config.enginesDelay, MAX_DELAY));
 	}
 }

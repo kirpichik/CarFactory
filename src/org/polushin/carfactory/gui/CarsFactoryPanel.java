@@ -12,7 +12,7 @@ import java.awt.*;
 public class CarsFactoryPanel extends JPanel {
 
 	private static final int MAX_DELAY = 10000;
-	private static final String DISPLAY_FORMAT = "<html>%s: %d/%d,<br>Произведено: %d</html>";
+	private static final String DISPLAY_FORMAT = "<html>%s: %d/%d,<br>Произведено: %d<br>Задержка: %d/%dмс.</html>";
 	private static final String CARS = "Автомобили";
 
 	private final JLabel carsLabel;
@@ -31,7 +31,10 @@ public class CarsFactoryPanel extends JPanel {
 		add(carsLabel = new JLabel());
 		JSlider carsSlider = new JSlider(JSlider.HORIZONTAL, 0, MAX_DELAY, config.carsDelay);
 		add(carsSlider);
-		carsSlider.addChangeListener(e -> config.carsDelay = carsSlider.getValue());
+		carsSlider.addChangeListener(e -> {
+			config.carsDelay = carsSlider.getValue();
+			updateStockValues();
+		});
 
 		updateStockValues();
 		new Timer(MainFrame.REPAINT_DELAY, e -> repaint()).start();
@@ -47,7 +50,8 @@ public class CarsFactoryPanel extends JPanel {
 		if (carsLabel == null)
 			return;
 		carsLabel.setText(
-				String.format(DISPLAY_FORMAT, CARS, cars.getStock().getSize(), config.carsStockSize, cars.getCount()));
+				String.format(DISPLAY_FORMAT, CARS, cars.getStock().getSize(), config.carsStockSize, cars.getCount(),
+				              config.carsDelay, MAX_DELAY));
 	}
 
 }
