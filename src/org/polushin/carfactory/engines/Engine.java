@@ -9,10 +9,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class Engine extends Product {
 
-	public static final long BUILD_DELAY = 2000;
-
-	public Engine() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(BUILD_DELAY);
+	public Engine(int delay) throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(delay);
 	}
 
 	@Override

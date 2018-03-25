@@ -1,0 +1,26 @@
+{
+  "engines": {
+    "stock_size": 100,
+    "delay": 2000
+  },
+  "carcasses": {
+    "stock_size": 100,
+    "delay": 2000
+  },
+  "accessories": {
+    "stock_size": 100,
+    "delay": 1000,
+    "providers": 10
+  },
+  "cars": {
+    "stock_size": 20,
+    "delay": 5000,
+    "workers": 10
+  },
+  "showroom": {
+    "delay": 5000,
+    "car_price": 999,
+    "dealers": 5
+  },
+  "log_sales": true
+}

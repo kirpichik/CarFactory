@@ -1,6 +1,7 @@
 package org.polushin.carfactory.carcass;
 
 import org.polushin.carfactory.Factory;
+import org.polushin.carfactory.ProductionConfig;
 
 import java.util.logging.Logger;
 
@@ -11,21 +12,13 @@ public class CarcassesFactory extends Factory<Carcass> {
 
 	static final Logger log = Logger.getLogger("Carcasses");
 
-	/**
-	 * @param stockMaxSize Максимальный размер склада.
-	 * @param providers Кол-во поставщиков кузовов.
-	 *
-	 * @throws RuntimeException Ошибка при создании фабрики.
-	 */
-	public CarcassesFactory(int stockMaxSize, int providers) throws RuntimeException {
-		super(CarcassesFactory.class.getSimpleName(), providers, new CarcassesStock(stockMaxSize));
+	public CarcassesFactory(ProductionConfig config) throws RuntimeException {
+		super(CarcassesFactory.class.getSimpleName(), 1, new CarcassesStock(config.carcassesStockSize));
 
-		for (int i = 0; i < providers; i++) {
-			try {
-				pool.runTask(new CarcassesProvider(stock));
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
+		try {
+			pool.runTask(new CarcassesProvider(stock, config));
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

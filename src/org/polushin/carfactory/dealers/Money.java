@@ -10,14 +10,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class Money extends Product {
 
-	public static final int CAR_PRICE = 999;
-	public static final long CAR_SALE_DELAY = 5000;
-
 	private final int amount;
 
-	public Money(Car car) throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(CAR_SALE_DELAY);
-		this.amount = CAR_PRICE;
+	public Money(Car car, int delay, int price) throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(delay);
+		this.amount = price;
 	}
 
 	public int getAmount() {

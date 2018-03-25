@@ -9,10 +9,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class Accessory extends Product {
 
-	public static final long BUILD_DELAY = 1000;
-
-	public Accessory() throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(BUILD_DELAY);
+	public Accessory(int delay) throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(delay);
 	}
 
 	@Override

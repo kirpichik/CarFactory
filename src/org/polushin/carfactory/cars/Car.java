@@ -12,14 +12,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class Car extends Product {
 
-	public static final long BUILD_DELAY = 5000;
-
 	private final Accessory accessory;
 	private final Engine engine;
 	private final Carcass carcass;
 
-	public Car(Accessory accessory, Engine engine, Carcass carcass) throws InterruptedException {
-		TimeUnit.MILLISECONDS.sleep(BUILD_DELAY);
+	public Car(Accessory accessory, Engine engine, Carcass carcass, int delay) throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(delay);
 		this.accessory = accessory;
 		this.engine = engine;
 		this.carcass = carcass;

@@ -1,5 +1,6 @@
 package org.polushin.carfactory.dealers;
 
+import org.polushin.carfactory.ProductionConfig;
 import org.polushin.carfactory.ProductionProvider;
 import org.polushin.carfactory.Stock;
 import org.polushin.carfactory.cars.Car;
@@ -12,11 +13,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Dealer implements ProductionProvider {
 
 	private final Stock<Car> carStock;
+	private final ProductionConfig config;
 
 	private final AtomicInteger cash = new AtomicInteger();
 
-	public Dealer(Stock<Car> cars) {
+	public Dealer(Stock<Car> cars, ProductionConfig config) {
 		carStock = cars;
+		this.config = config;
 	}
 
 	@Override
@@ -27,7 +30,7 @@ public class Dealer implements ProductionProvider {
 				CarsShowroom.log.fine("Waiting car from stock...");
 				Car car = carStock.getProduction();
 				CarsShowroom.log.fine("Car put from stock: " + car);
-				Money money = new Money(car);
+				Money money = new Money(car, config.saleDelay, config.pricePerSale);
 				cash.getAndAdd(money.getAmount());
 				CarsShowroom.log.info("Car sold. Current dealer cash: " + cash.get());
 			}
@@ -44,6 +47,6 @@ public class Dealer implements ProductionProvider {
 
 	@Override
 	public int getCount() {
-		return getCash() / Money.CAR_PRICE;
+		return getCash() / config.pricePerSale;
 	}
 }

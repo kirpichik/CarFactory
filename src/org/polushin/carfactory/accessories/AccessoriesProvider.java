@@ -1,5 +1,6 @@
 package org.polushin.carfactory.accessories;
 
+import org.polushin.carfactory.ProductionConfig;
 import org.polushin.carfactory.ProductionProvider;
 import org.polushin.carfactory.Stock;
 
@@ -11,10 +12,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AccessoriesProvider implements ProductionProvider<Accessory> {
 
 	private final Stock<Accessory> stock;
+	private final ProductionConfig config;
 	private final AtomicInteger count = new AtomicInteger();
 
-	public AccessoriesProvider(Stock<Accessory> stock) {
+	public AccessoriesProvider(Stock<Accessory> stock, ProductionConfig config) {
 		this.stock = stock;
+		this.config = config;
 	}
 
 	@Override
@@ -22,7 +25,7 @@ public class AccessoriesProvider implements ProductionProvider<Accessory> {
 		AccessoriesFactory.log.fine("Accessories provider started.");
 		try {
 			while (true) {
-				Accessory accessory = new Accessory();
+				Accessory accessory = new Accessory(config.accessoriesDelay);
 				AccessoriesFactory.log.fine("Created: " + accessory);
 				AccessoriesFactory.log.fine("Storage current size: " + stock.getSize() + "/" + stock.getMaxSize());
 				stock.addProduction(accessory);
