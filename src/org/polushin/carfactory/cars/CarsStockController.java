@@ -9,15 +9,18 @@ import org.polushin.carfactory.StockUpdateListener;
 public class CarsStockController extends Thread implements StockUpdateListener<Car> {
 
 	private final CarsFactory factory;
+	private volatile boolean update;
 
 	public CarsStockController(CarsFactory factory) {
 		this.factory = factory;
+		setName("Stock contoller");
 		start();
 	}
 
 	@Override
 	public void onUpdate(Stock<Car> stock) {
 		synchronized (factory) {
+			update = true;
 			factory.notify();
 		}
 	}
@@ -27,13 +30,14 @@ public class CarsStockController extends Thread implements StockUpdateListener<C
 		try {
 			while (true) {
 
-				int free = factory.getStock().freeSpace();
-				for (int i = 0; i < factory.getWorkersMaxCount() && i < free; i++)
+				for (int i = 0; i < factory.getWorkersMaxCount() && i < factory.getStock().freeSpace(); i++)
 					factory.tryToWakeupWorker();
 
-				synchronized (factory) {
-					factory.wait();
-				}
+				if (!update)
+					synchronized (factory) {
+						factory.wait();
+					}
+				update = false;
 			}
 		} catch (InterruptedException ignored) {
 		}

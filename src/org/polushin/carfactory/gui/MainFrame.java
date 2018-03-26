@@ -10,6 +10,8 @@ import org.polushin.carfactory.engines.EnginesFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Главное окно.
@@ -30,9 +32,9 @@ public class MainFrame extends JFrame {
 		final Factory[] factories = new Factory[] {accessories, carcasses, engines, cars, showroom};
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		addWindowListener(new java.awt.event.WindowAdapter() {
+		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			public void windowClosing(WindowEvent windowEvent) {
 				for (Factory factory : factories)
 					factory.stopFactory();
 				System.exit(0);

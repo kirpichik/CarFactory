@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @param <Prod> Тип хранимой продукции.
  */
-public class AbstractStock<Prod extends Product> implements Stock<Prod> {
+public abstract class AbstractStock<Prod extends Product> implements Stock<Prod> {
 
 	protected final List<Prod> products;
 	protected volatile int maxSize;
@@ -17,6 +17,8 @@ public class AbstractStock<Prod extends Product> implements Stock<Prod> {
 	 * @param maxSize Максимальный размер склада.
 	 */
 	public AbstractStock(int maxSize) {
+		if (maxSize <= 0)
+			throw new IllegalArgumentException("Size must be positive!");
 		products = new ArrayList<>(maxSize);
 		this.maxSize = maxSize;
 	}
